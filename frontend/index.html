@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DropZone - P2P File Transfer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1 class="logo">
+                <span class="logo-icon">📦</span>
+                <span class="logo-text">DropZone</span>
+            </h1>
+            <p class="tagline">Send files directly, no uploads</p>
+        </header>
+
+        <main class="main-card">
+            <div id="landing-view" class="view">
+                <div class="action-buttons">
+                    <button id="send-btn" class="btn btn-primary">
+                        <span class="btn-icon">⬆️</span>
+                        Send a File
+                    </button>
+                    <button id="receive-btn" class="btn btn-secondary">
+                        <span class="btn-icon">⬇️</span>
+                        Receive a File
+                    </button>
+                </div>
+                <div class="features">
+                    <div class="feature">
+                        <span class="feature-icon">⚡</span>
+                        <span>Fast P2P transfer</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🔒</span>
+                        <span>End-to-end encrypted</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🚫</span>
+                        <span>No server storage</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="send-view" class="view hidden">
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-zone-content">
+                        <span class="drop-icon">📤</span>
+                        <p>Drop your file here or click to browse</p>
+                        <span class="drop-hint">Up to 2GB</span>
+                    </div>
+                </div>
+                <input type="file" id="file-input" hidden>
+                <div id="file-preview" class="file-preview hidden"></div>
+                <button id="generate-code-btn" class="btn btn-primary btn-large" disabled>
+                    Generate Code
+                </button>
+                <div id="code-display" class="code-display hidden">
+                    <p class="code-label">Share this code</p>
+                    <div class="code-box">
+                        <span id="generated-code" class="generated-code">------</span>
+                        <button id="copy-code-btn" class="btn btn-small">Copy</button>
+                    </div>
+                    <p class="code-timer">Expires in <span id="timer">5:00</span></p>
+                    <p class="waiting-message">Waiting for peer to connect...</p>
+                </div>
+            </div>
+
+            <div id="receive-view" class="view hidden">
+                <p class="instruction">Enter the 6-digit code</p>
+                <div class="code-inputs">
+                    <input type="text" class="code-input" maxlength="1" inputmode="alphanumeric">
+                    <input type="text" class="code-input" maxlength="1" inputmode="alphanumeric">
+                    <input type="text" class="code-input" maxlength="1" inputmode="alphanumeric">
+                    <input type="text" class="code-input" maxlength="1" inputmode="alphanumeric">
+                    <input type="text" class="code-input" maxlength="1" inputmode="alphanumeric">
+                    <input type="text" class="code-input" maxlength="1" inputmode="alphanumeric">
+                </div>
+                <button id="join-session-btn" class="btn btn-primary btn-large" disabled>
+                    Join Session
+                </button>
+            </div>
+
+            <div id="transfer-view" class="view hidden">
+                <div class="transfer-status">
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <span id="transfer-status-text" class="status-text">Connecting...</span>
+                    </div>
+                </div>
+                <div class="file-info-large">
+                    <span id="transfer-filename" class="filename-large">-</span>
+                    <span id="transfer-filesize" class="filesize-large">-</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div id="progress-bar" class="progress-bar"></div>
+                    </div>
+                    <div class="progress-details">
+                        <span id="progress-percent" class="progress-percent">0%</span>
+                        <span id="progress-speed" class="progress-speed">0 B/s</span>
+                    </div>
+                    <p id="progress-time" class="progress-time">Calculating...</p>
+                </div>
+                <button id="cancel-transfer-btn" class="btn btn-danger">
+                    Cancel
+                </button>
+            </div>
+
+            <div id="success-view" class="view hidden">
+                <div class="success-icon">
+                    <svg viewBox="0 0 52 52" class="checkmark">
+                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+                <h2 class="success-title">File Transferred!</h2>
+                <div class="success-file-info">
+                    <p><span id="success-filename">-</span></p>
+                    <p class="success-size"><span id="success-filesize">-</span></p>
+                </div>
+                <button id="transfer-another-btn" class="btn btn-primary btn-large">
+                    Transfer Another
+                </button>
+            </div>
+
+            <div id="error-view" class="view hidden">
+                <div class="error-icon">⚠️</div>
+                <p id="error-message" class="error-message">Something went wrong</p>
+                <button id="retry-btn" class="btn btn-secondary">
+                    Try Again
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p>P2P • WebRTC • No Cloud</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <script src="js/webrtc.js"></script>
+    <script src="js/transfer.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
