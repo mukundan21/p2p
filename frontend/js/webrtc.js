@@ -8,19 +8,17 @@ class WebRTCManager {
         this.onError = null;
 
         this.iceServers = [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' },
-            { urls: 'stun:stun2.l.google.com:19302' },
-            {
-                urls: 'turn:your-turn-server.example.com:3478',
-                username: 'your-username',
-                credential: 'your-credential'
-            },
-            {
-                urls: 'turns:your-turn-server.example.com:5349',
-                username: 'your-username',
-                credential: 'your-credential'
-            }
+            { urls: 'stun:global.xirsys.net' },
+        {
+            urls: 'turn:global.xirsys.net:3478?transport=udp',
+            username: 'Mukundan', // Replace with your Ident
+            credential: '702da2da-4f52-11f1-b51b-0242ac140002' // Replace with your Secret
+        },
+        {
+            urls: 'turn:global.xirsys.net:3478?transport=tcp',
+            username: 'Mukundan', 
+            credential: '702da2da-4f52-11f1-b51b-0242ac140002'
+        }
         ];
     }
 

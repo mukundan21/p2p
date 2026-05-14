@@ -1,4 +1,4 @@
-const WS_URL = 'ws://p2p-8i7p.onrender.com';
+const WS_URL = 'wss://p2p-8i7p.onrender.com';
 const API_URL = 'https://p2p-8i7p.onrender.com';
 const SESSION_TTL = 300;
 
